@@ -1,5 +1,5 @@
 import click
-from mnogokit import pass_conf
+from mnogokit import pass_conf, timestamp, mount_s3
 
 @click.command(
         context_settings=dict(
@@ -11,7 +11,6 @@ from mnogokit import pass_conf
 @pass_conf
 def backup(config, collections, message):
 
-    timestamp = ctx.obj.get(config_section, 'timestamp')
 
     with mount_s3(config.bucket, config.mountpoint) as mounted:
         destination =  os.path.join(config.mountpoint, config.environment, timestamp)

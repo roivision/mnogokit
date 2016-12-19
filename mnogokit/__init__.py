@@ -25,27 +25,25 @@ def expand_path(path):
     return expanded_path
 
 class Config():
-    defaults = {
+    DEFAULTS = {
             "bucket": 'gazelle-mongobackups',
             "environment": 'dev',
             "mountpoint": '~/mongobackups',
     }
 
-    def __init__(config_file):
+    def __init__(self, config_file):
         config_file = expand_path(config_file)
-        config = ConfigParser.SafeConfigParser(defaults)
+        config = ConfigParser.SafeConfigParser(self.DEFAULTS)
         config.read(config_file)
         if not config.has_section(CONFIG_SECTION):
             config.add_section(CONFIG_SECTION)
-        for setting in defaults:
+        for setting in self.DEFAULTS:
             setattr(self,
                 setting, 
                 os.environ.get(setting.upper())
                 or config.get(CONFIG_SECTION, setting))
             
         self.mountpoint = expand_path(self.mountpoint)
-        if not os.path.exists(config.mountpoint):
-            os.makedirs(config.mountpoint)
 
 pass_conf = click.make_pass_decorator(Config)
 

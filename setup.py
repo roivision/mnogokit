@@ -22,6 +22,6 @@ setup(name='mnogokit',
       test_suite="tests",
       entry_points="""\
       [console_scripts]
-        mnogokit = mnogokit.cli:run
+        mnogokit = mnogokit.cli:cli
       """,
       )
