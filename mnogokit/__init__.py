@@ -49,6 +49,10 @@ pass_conf = click.make_pass_decorator(Config)
 
 @contextmanager
 def mount_s3(bucket, mountpoint):
+    if os.path.ismount(mountpoint):
+        print("{0} is already mounted, if mounted with S3FS run `fusermount -u"
+                "{0}`".format(mountpoint))
+        sys.exit(2)
     s3fs([bucket, mountpoint])
     yield mountpoint
     sync()
