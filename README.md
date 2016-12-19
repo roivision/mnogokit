@@ -1,15 +1,24 @@
+# Mnogokit
+## Requirements
+- configure S3FS AWS credentials `echo $AWSACCESSKEYID:$AWSSECRETACCESSKEY > ~/.passwd-s3fs`
+- optional `~/.mnogokit` config file, defaults are:
+```
+[mnogokit]
+bucket = gazelle-mongobackups
+environment = dev
+mountpoint = ~/mongobackups
+```
+- optional environment variables: `BUCKET` `ENVIRONMENT` `MOUNTPOINT`
 
+## Backup
 
-1. you can pass a list of collection names (mongodump/mongorestore only does either the whole DB or 1 collection at a time)
-12:17 PM
-2. add a -m param for creating a readme file with the user message
-12:18 PM
-3. user should be able to pass original params, like ﻿⁠⁠⁠⁠-d impala﻿⁠⁠⁠⁠
-12:19 PM
-4. there is ﻿⁠⁠⁠⁠.config﻿⁠⁠⁠⁠ file when we store defaults for this script, like default host, or any other stuff
-12:19 PM
-so script reads it from that file or perhaps from the env variables too?
+Run `mnogokit.backup`.
+Mongo dump options are passed directly to `mongodump`
 
-lets call it ﻿⁠⁠⁠⁠mnogo﻿⁠⁠⁠⁠
-12:22 PM
-its russian for ﻿⁠⁠⁠⁠many﻿⁠⁠⁠⁠ :)
+Examples:
+```
+mnogokit.backup # backups all the databases
+mnogokit.backup -m "commit message" # adds a `COMMIT` file with the message along the dump
+mnogokit.backup -d some_db -c c1,c2,c3 # dumps collections `c1` `c2` `c3` from `some_db`
+mnogokit.backup -C /etc/my_backup.conf # uses the `/etc/my_backup.conf` configuration file
+```
