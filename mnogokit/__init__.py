@@ -8,7 +8,7 @@ from datetime import datetime
 from contextlib import contextmanager
 
 
-for module in ['mongodump', 's3fs', 'fusermount', 'sync']:
+for module in ['mongorestore', 'mongodump', 's3fs', 'fusermount', 'sync']:
     try:
         globals()[module] = getattr(sh, module)
     except:
@@ -45,7 +45,6 @@ class Config():
             
         self.mountpoint = expand_path(self.mountpoint)
 
-pass_conf = click.make_pass_decorator(Config)
 
 @contextmanager
 def mount_s3(bucket, mountpoint):
@@ -54,7 +53,9 @@ def mount_s3(bucket, mountpoint):
                 "{0}`".format(mountpoint))
         sys.exit(2)
     s3fs([bucket, mountpoint])
-    yield mountpoint
-    sync()
-    sleep(10)
-    fusermount('-u', mountpoint)
+    try:
+        yield mountpoint
+    finally:
+        sync()
+        sleep(10)
+        fusermount('-u', mountpoint)
