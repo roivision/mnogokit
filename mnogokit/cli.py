@@ -5,7 +5,7 @@ from mnogokit.backup import backup
 from mnogokit.restore import restore
 from mnogokit.ls import ls
 
-@click.group(chain=True)
+@click.group()
 @click.option('--environment', '-E', required=False)
 @click.option('--config-file', '-C', required=False)
 @click.pass_context

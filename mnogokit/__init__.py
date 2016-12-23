@@ -57,5 +57,5 @@ def mount_s3(bucket, mountpoint):
         yield mountpoint
     finally:
         sync()
-        sleep(10)
+        sleep(20)
         fusermount('-u', mountpoint)
