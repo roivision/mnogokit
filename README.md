@@ -28,5 +28,21 @@ mnogokit backup -d some_db -c c1,c2,c3 # dumps collections `c1` `c2` `c3` from `
 mnogokit backup -C /etc/my_backup.conf # uses the `/etc/my_backup.conf` configuration file
 ```
 
-# Import
+## List backups
 
+`mnogokit [-E env] ls`
+
+## Import
+
+Use `mnogokit ls` output path to chose backup to restore.
+Run `mnogokit restore --help`.
+Mongo restore options are passed directly to `mongorestore`
+
+Examples:
+```
+mnogokit -E <environment> ls
+mnogokit restore <s3 path> # restore data from the `s3 path`
+mnogokit restore -d <database> <s3 path> # restore data from the `s3 path` into specified `database`
+mnogokit restore -d <database> -c <collection> <s3 path to a bson> # restore into specific collection
+mnogokit restore -d <database> --collections c1,c2,c3 <s3 path to a folder containing bsons> # restore bson files in the `s3 path` into their matching collection
+```
