@@ -22,6 +22,8 @@ setup(name='mnogokit',
       test_suite="tests",
       entry_points="""\
       [console_scripts]
-        mnogokit = mnogokit.cli:cli
+        mnogokit.ls = mnogokit.ls:ls
+        mnogokit.backup = mnogokit.backup:backup
+        mnogokit.restore = mnogokit.restore:restore
       """,
       )

@@ -1,6 +1,6 @@
 import click
 import os
-from mnogokit import mount_s3
+from mnogokit import mount_s3, read_config
 import boto3
 from botocore.exceptions import ClientError
 
@@ -9,9 +9,11 @@ from botocore.exceptions import ClientError
             ignore_unknown_options=True,
             allow_extra_args=True,
     ))
+@click.option('--environment', '-E', required=False)
+@click.option('--config-file', '-C', required=False)
 @click.pass_context
-def ls(ctx):
-    config = ctx.obj
+def ls(ctx, environment, config_file):
+    config = read_config(environment, config_file)
     s3 = boto3.resource('s3')
     client = boto3.client('s3')
     bucket = s3.Bucket(config.bucket)

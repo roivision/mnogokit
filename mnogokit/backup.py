@@ -1,6 +1,6 @@
 import click
 import os
-from mnogokit import timestamp, mount_s3, mongodump
+from mnogokit import timestamp, mount_s3, mongodump, read_config
 
 
 @click.command(
@@ -8,12 +8,14 @@ from mnogokit import timestamp, mount_s3, mongodump
             ignore_unknown_options=True,
             allow_extra_args=True,
     ))
+@click.option('--environment', '-E', required=False)
+@click.option('--config-file', '-C', required=False)
 @click.option('--db', '-d', required=False)
 @click.option('--collection', '-c', required=False)
 @click.option('--message', '-m', required=False)
 @click.pass_context
-def backup(ctx, db, collection, message):
-    config = ctx.obj
+def backup(ctx, environment, config_file, db, collection, message):
+    config = read_config(environment, config_file)
     if db:
         ctx.args[:0] = ['--db', db]
     with mount_s3(config.bucket, config.mountpoint) as mounted:

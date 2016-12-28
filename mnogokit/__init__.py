@@ -59,3 +59,10 @@ def mount_s3(bucket, mountpoint):
         sync()
         sleep(20)
         fusermount('-u', mountpoint)
+
+def read_config(environment, config_file):
+    config = Config(config_file or DEFAULT_CONFIG_FILE)
+    config.environment = environment or config.environment
+    if not os.path.exists(config.mountpoint):
+        os.makedirs(config.mountpoint)
+    return config
