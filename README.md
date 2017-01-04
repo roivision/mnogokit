@@ -50,3 +50,9 @@ mnogokit.restore -d <database> <s3 path> # restore data from the `s3 path` into 
 mnogokit.restore -d <database> -c <collection> <s3 path to a bson> # restore into specific collection
 mnogokit.restore -d <database> --collections c1,c2,c3 <s3 path to a folder containing bsons> # restore bson files in the `s3 path` into their matching collection
 ```
+
+## Troubleshooting
+
+### error- "Transport endpoint is not connected"
+
+You might need to install `s3fs` from source, see https://github.com/s3fs-fuse/s3fs-fuse#installation

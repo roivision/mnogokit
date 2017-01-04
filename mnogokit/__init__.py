@@ -26,7 +26,7 @@ def expand_path(path):
 
 class Config():
     DEFAULTS = {
-            "bucket": 'gazelle-mongobackups',
+            "bucket": 'my-mongobackups',
             "environment": 'dev',
             "mountpoint": '~/mongobackups',
             "s3fs_options": None
