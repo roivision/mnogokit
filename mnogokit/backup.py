@@ -18,7 +18,10 @@ def backup(ctx, environment, config_file, db, collection, message):
     config = read_config(environment, config_file)
     if db:
         ctx.args[:0] = ['--db', db]
-    with mount_s3(config.bucket, config.mountpoint) as mounted:
+    with mount_s3(
+            config.bucket,
+            config.mountpoint,
+            config.s3fs_options) as mounted:
         destination =  os.path.join(config.mountpoint, config.environment, timestamp)
         if not os.path.exists(destination):
             os.makedirs(destination)

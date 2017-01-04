@@ -29,6 +29,7 @@ class Config():
             "bucket": 'gazelle-mongobackups',
             "environment": 'dev',
             "mountpoint": '~/mongobackups',
+            "s3fs_options": None
     }
 
     def __init__(self, config_file):
@@ -47,12 +48,15 @@ class Config():
 
 
 @contextmanager
-def mount_s3(bucket, mountpoint):
+def mount_s3(bucket, mountpoint, s3fs_options=""):
     if os.path.ismount(mountpoint):
         print("{0} is already mounted, if mounted with S3FS run `fusermount -u"
                 "{0}`".format(mountpoint))
         sys.exit(2)
-    s3fs([bucket, mountpoint])
+    s3fs_args = [bucket, mountpoint] 
+    if s3fs_options:
+        s3fs_args += ["-o", s3fs_options]
+    s3fs(s3fs_args)
     try:
         yield mountpoint
     finally:

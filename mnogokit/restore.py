@@ -19,7 +19,10 @@ def restore(
     config = read_config(environment, config_file)
     restore_path =  os.path.join(config.mountpoint, restore_path)
     mongo_restore_args = mongo_restore_args + (restore_path, )
-    with mount_s3(config.bucket, config.mountpoint) as mounted:
+    with mount_s3(
+            config.bucket,
+            config.mountpoint,
+            config.s3fs_options) as mounted:
         if collections:
             collections = collections.split(",")
             for collection in collections:
