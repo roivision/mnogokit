@@ -2,6 +2,8 @@
 
 `mnogokit --help`
 
+Backup and restore Mongo DB from and to S3, using `s3fs`, optionally passing a list of collections to iterate over.
+
 ## Requirements
 
 - `mongorestore` and `mongodump`
